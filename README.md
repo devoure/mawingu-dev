@@ -68,4 +68,14 @@
      			> Access the instance with the floating IP created and private SSH key generated.
         ```bash
         	ssh -i <path/to/ssh/private_key/> <username@ip_address>
+    	```	
+    1. Check DNS settings.
+     			> Ensure your nameserver is set to 8.8.8.8.
+        ```bash
+        	vim /etc/resolv.conf
+    	```
+	1. Download nginx.
+     			> Download the server proxy we will use for running our django application.
+        ```bash
+        	sudo apt-get install nginx
     	```
