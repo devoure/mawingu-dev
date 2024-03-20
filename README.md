@@ -79,3 +79,68 @@
         ```bash
         	sudo apt-get install nginx
     	```
+	1. Download python and its environment package.
+     			> The django application requires a python environment for running and installing packages.
+        ```bash
+        	sudo apt install python3
+            sudo apt install python3-pip
+            pip install virtualenv
+    	```
+	1. Create new environment.
+     			> In this step I create an environment called base..
+        ```bash
+        	python3 -m virtualenv base
+            source base/bin/activate
+    	```
+	1. Clone repo with the django project.
+     			> Clone the repo from github to run on the server.
+        ```bash
+        	git clone https://github.com/devoure/mawingu-dev.git
+    	```
+	1. Install the dependencies.
+     			> Move to the root of the project and install dependencies will be.
+        ```bash
+        	cd mawingu-dev/app/
+            pip install -r requirements.txt
+    	```
+	1. Add gunicorn configs
+     			> Add configs used by guncicorn at the base of the repository
+        ```bash
+            mkdir configs/
+            vim gunicorn_confs.py
+    	```
+
+        ```python
+            command='\home\ubuntu\path\to\gunicorn\executable'
+            pythonpath='\home\ubuntu\<path\to\django\app>'
+            bind='ip_address:8000'
+            workers=3
+        ```
+	1. Add nginx configs
+     			> create a file with nginx configs
+        ```bash
+            sudo vim /etc/nginx/sites-available/mawingu
+    	```
+
+        ```
+            server{
+                listen 80;
+                server_name <ip_adress>;
+
+                location /static/ {
+                    root /home/ubuntu/<path/to/your/static/files>;
+
+                }
+                location / {
+                    proxy_pass http://<ip_address>:8000;
+                }
+
+            }
+        ```
+            
+    	1. Link the file created with default file in sites-enabled.
+     			> Link the nginx conf file with the default.
+        ```bash
+        	cd /etc/nginx/sites-enabled/
+            sudo ln -s /etc/nginx/sites-available/mawingu
+    	```
