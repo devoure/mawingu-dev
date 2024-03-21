@@ -144,3 +144,16 @@
         	cd /etc/nginx/sites-enabled/
             sudo ln -s /etc/nginx/sites-available/mawingu
     	```
+
+## 💻🏃‍♂️ Running Code Snippet
+   1. Move into project
+        ```bash
+            cd mwanafunzi/mwanafunzi
+
+        ```
+   1. Run docker services
+        ```bash
+            python manage.py runserver
+
+        ```
+
