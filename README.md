@@ -2,7 +2,8 @@
 > :bulb: Devstack Project
 ## 💬 Description
 > This are the steps to follow to deploy a django application on a devstack instance. I have installed devstack on a virtual machine and through horizon I will create an instance and clone a django application on that instance and run it.
-
+![Header](./screenshots/layout.png)
+![Devstack](./screenshots/devstack.png)
 # :briefcase: Resources
 > Links to the youtube videos and documentation i have used to achieve this.
 > 1. ![Nginx and Gunicorn with django](https://www.youtube.com/watch?v=YnrgBeIRtvo)
@@ -46,6 +47,7 @@
      		> A security group is a virtual firewall that controls ingress and egress traffic to your instance.
      		> On horizon, on the left sidebar click on Network -> Security Groups -> Create New
      		> Add a new rule in the Security group to allow SSH traffic from your hardware node.
+            > Also add a new rule for http, to allow http traffic at port 80 to your instance.
 	1. Generate SSH key
 		> The key will be used to log in into an instance.
 
@@ -125,14 +127,14 @@
         ```
             server{
                 listen 80;
-                server_name <ip_adress>;
+                server_name <public_ip_adress>;
 
                 location /static/ {
                     root /home/ubuntu/<path/to/your/static/files>;
 
                 }
                 location / {
-                    proxy_pass http://<ip_address>:8000;
+                    proxy_pass http://<private_ip_address>:8000;
                 }
 
             }
@@ -146,14 +148,28 @@
     	```
 
 ## 💻🏃‍♂️ Running Code Snippet
-   1. Move into project
+   1. Move to web app root
         ```bash
-            cd mwanafunzi/mwanafunzi
+            cd mawingu-dev/mawingu 
 
         ```
-   1. Run docker services
+   1. Run gunicorn
         ```bash
-            python manage.py runserver
+            python3 -m gunicorn -c /home/ubuntu/configs/guncicorn_conf.py mawingu.wsgi
 
         ```
+   1. Run nginx
+        ```bash
+            sudo systemctl start nginx
 
+        ```
+   1. Run gunicorn
+        ```bash
+            python3 -m gunicorn -c /home/ubuntu/configs/guncicorn_conf.py mawingu.wsgi
+
+        ```
+   1. Create a ssh-tunnel with port forwarding
+        ```bash
+            ssh -L 8080:<public_ip_adress>:80 username@host_server_ip
+        ```
+![SSH](./screenshots/ssh.png)
