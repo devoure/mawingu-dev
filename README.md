@@ -155,7 +155,7 @@
         ```
    1. Run gunicorn
         ```bash
-            python3 -m gunicorn -c /home/ubuntu/configs/guncicorn_conf.py mawingu.wsgi
+            python3 -m gunicorn -c /home/ubuntu/configs/gunicorn_conf.py mawingu.wsgi
 
         ```
    1. Run nginx
@@ -163,13 +163,10 @@
             sudo systemctl start nginx
 
         ```
-   1. Run gunicorn
-        ```bash
-            python3 -m gunicorn -c /home/ubuntu/configs/guncicorn_conf.py mawingu.wsgi
-
-        ```
    1. Create a ssh-tunnel with port forwarding
         ```bash
             ssh -L 8080:<public_ip_adress>:80 username@host_server_ip
         ```
 ![SSH](./screenshots/ssh.png)
+
+![Running Screenshot](./screenshots/screenshot.png)
